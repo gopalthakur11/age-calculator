@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .input-group input {
+            width: 30%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            background: #ff758c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background: #ff7eb3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .input-group input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Age Calculator</h2>
+        <label>Start Date:</label>
+        <div class="input-group">
+            <input type="number" id="startDay" placeholder="DD" min="1" max="31">
+            <input type="number" id="startMonth" placeholder="MM" min="1" max="12">
+            <input type="number" id="startYear" placeholder="YYYY" min="1900" max="2100">
+        </div>
+        <label>End Date:</label>
+        <div class="input-group">
+            <input type="number" id="endDay" placeholder="DD" min="1" max="31">
+            <input type="number" id="endMonth" placeholder="MM" min="1" max="12">
+            <input type="number" id="endYear" placeholder="YYYY" min="1900" max="2100">
+        </div>
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateAge() {
+            let startDay = parseInt(document.getElementById('startDay').value);
+            let startMonth = parseInt(document.getElementById('startMonth').value) - 1;
+            let startYear = parseInt(document.getElementById('startYear').value);
+            let endDay = parseInt(document.getElementById('endDay').value);
+            let endMonth = parseInt(document.getElementById('endMonth').value) - 1;
+            let endYear = parseInt(document.getElementById('endYear').value);
+
+            if (!startDay || !startMonth || !startYear || !endDay || !endMonth || !endYear) {
+                document.getElementById('result').innerHTML = "Please fill all fields correctly.";
+                return;
+            }
+
+            let startDate = new Date(startYear, startMonth, startDay);
+            let endDate = new Date(endYear, endMonth, endDay);
+
+            if (endDate < startDate) {
+                document.getElementById('result').innerHTML = "End date must be after start date.";
+                return;
+            }
+
+            let years = endYear - startYear;
+            let months = endMonth - startMonth;
+            let days = endDay - startDay;
+
+            if (days < 0) {
+                months--;
+                days += new Date(endYear, endMonth, 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            document.getElementById('result').innerHTML = `Age: ${years} years, ${months} months, and ${days} days`;
+        }
+    </script>
+</body>
+</html>
